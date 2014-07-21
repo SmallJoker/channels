@@ -1,6 +1,9 @@
 minetest.register_chatcommand("channel", {
 	description = "Manages chat channels",
-	privs = {interact=true, shout=true},
+	privs = {
+		interact = true, 
+		shout = true
+	},
 	func = function(name, param)
 		if param == "" then
 			minetest.chat_send_player(name, "Online players: /channel online")

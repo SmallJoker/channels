@@ -10,12 +10,10 @@ minetest.register_chatcommand("channel", {
 			minetest.chat_send_player(name, "Join/switch:    /channel set <channel>")
 			minetest.chat_send_player(name, "Leave channel:  /channel leave")
 			return
-		end
-		if param == "online" then
+		elseif param == "online" then
 			channels.command_online(name)
 			return
-		end
-		if param == "leave" then
+		elseif param == "leave" then
 			channels.command_leave(name)
 			return
 		end

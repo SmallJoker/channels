@@ -1,6 +1,9 @@
 channels
 ========
 
+License: WTFPL
+
+
 This modification for Minetest adds a channel feature.
 You can join and leave channels to create:
 - Teamchats

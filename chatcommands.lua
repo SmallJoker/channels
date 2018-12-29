@@ -29,6 +29,7 @@ minetest.register_chatcommand("channel", {
 })
 
 function channels.say_chat(name, message, channel)
+    minetest.debug("<"..channel.."> CHAT: "..message)
 	for k,v in pairs(channels.players) do
 		if v == channel and k ~= name then
 			minetest.chat_send_player(k, message)

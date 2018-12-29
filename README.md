@@ -18,11 +18,11 @@ How to use
 
 There is one chat command to manage everything.
 
-* Online players in your channel:  /channel online
+* Online players in your channel:  `/channel online`
 
-* Join or switch your channel:     /channel set <channel>
+* Join or switch your channel:     `/channel join <channel>`
 
-* Leave the current channel:       /channel leave
+* Leave the current channel:       `/channel leave`
 
 Settings
 --------

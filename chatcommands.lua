@@ -7,7 +7,7 @@ minetest.register_chatcommand("channel", {
 	func = function(name, param)
 		if param == "" then
 			minetest.chat_send_player(name, "Online players: /channel online")
-			minetest.chat_send_player(name, "Join/switch:    /channel set <channel>")
+			minetest.chat_send_player(name, "Join/switch:    /channel join <channel>")
 			minetest.chat_send_player(name, "Leave channel:  /channel leave")
 			return
 		elseif param == "online" then
@@ -18,7 +18,7 @@ minetest.register_chatcommand("channel", {
 			return
 		end
 		local args = param:split(" ")
-		if args[1] == "set" then
+		if args[1] == "join" then
 			if #args >= 2 then
 				 channels.command_set(name, args[2])
 				 return
@@ -76,7 +76,7 @@ function channels.command_set(name, param)
 		local oplayers = minetest.get_connected_players()
 		for _,player in ipairs(oplayers) do
 			local p_name = player:get_player_name()
-			if not channels.players[p_name] and p_name ~= name then
+			if not channels.players[p_name] and p_name ~= name and channels.allow_global_channel then
 				minetest.chat_send_player(p_name, "# "..name.." left the global chat")
 			end
 		end

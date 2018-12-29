@@ -2,12 +2,29 @@ channels = {}
 channels.huds = {}
 channels.players = {}
 
-channels.allow_global_channel = minetest.settings:get_bool("channels.allow_global_channel")
-if channels.allow_global_channel == nil then
-    channels.allow_global_channel = true
+local function nil_or(d,v)
+    if v == nil then
+        return d
+    end
+
+    return v
 end
 
+channels.allow_global_channel = nil_or(true, minetest.settings:get_bool("channels.allow_global_channel") )
+channels.disable_private_messages = nil_or(false, minetest.settings:get_bool("channels.disable_private_messages") )
+
 dofile(minetest.get_modpath("channels").."/chatcommands.lua")
+
+if channels.disable_private_messages then
+    minetest.register_chatcommand("msg", {
+        params = "",
+        description = "?",
+        privs = nil,
+        func = function(name, param)
+            return true, "(private messages disabled)"
+        end,
+    })
+end
 
 minetest.register_on_chat_message(function(name, message)
 	local pl_channel = channels.players[name]

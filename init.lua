@@ -1,7 +1,11 @@
 channels = {}
 channels.huds = {}
 channels.players = {}
+
 channels.allow_global_channel = minetest.settings:get_bool("channels.allow_global_channel")
+if channels.allow_global_channel == nil then
+    channels.allow_global_channel = true
+end
 
 dofile(minetest.get_modpath("channels").."/chatcommands.lua")
 

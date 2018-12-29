@@ -29,4 +29,4 @@ Settings
 
 * `channels.allow_global_channel` - set to `true` to allow a global channel.
     * if not `true` then players must use channels to chat
-    * default is `false`
+    * default is `true`

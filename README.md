@@ -28,5 +28,7 @@ Settings
 --------
 
 * `channels.allow_global_channel` - set to `true` to allow a global channel.
-    * if not `true` then players must use channels to chat
+    * if not `true` then players can only chat through named channels
     * default is `true`
+* `channels.disable_private_messages` - set to `true` to disable private messages.
+    * default is `false`

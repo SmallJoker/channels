@@ -3,7 +3,6 @@ channels
 
 License: WTFPL
 
-
 This modification for Minetest adds a channel feature.
 
 You can join and leave channels to create:
@@ -23,6 +22,10 @@ There is one chat command to manage everything.
 * Join or switch your channel:     `/channel join <channel>`
 
 * Leave the current channel:       `/channel leave`
+
+Additionally, players with `basic_privs` priviledge can also use
+
+* Send message to all players:     `/channel wall <message ...>`
 
 Settings
 --------

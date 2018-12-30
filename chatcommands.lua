@@ -51,7 +51,7 @@ minetest.register_chatcommand("channel", {
 })
 
 function channels.say_chat(name, message, channel)
-	minetest.debug("[#"..channel.."] CHAT: "..message)
+	minetest.log("action","CHAT: #"..channel.." "..message)
 
 	for k,v in pairs(channels.players) do
 		if v == channel then

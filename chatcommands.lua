@@ -1,3 +1,17 @@
+local function tablejoin(t, i, j)
+	local s = ""
+	local k
+
+	if not i then i = 1 end
+	if not j then j = #t end
+
+	for k=i,j do
+		s = s.." "..t[k]
+	end
+
+	return s
+end
+
 minetest.register_chatcommand("channel", {
 	description = "Manages chat channels",
 	privs = {
@@ -10,31 +24,49 @@ minetest.register_chatcommand("channel", {
 			minetest.chat_send_player(name, "Join/switch:    /channel join <channel>")
 			minetest.chat_send_player(name, "Leave channel:  /channel leave")
 			return
+
 		elseif param == "online" then
 			channels.command_online(name)
 			return
+
 		elseif param == "leave" then
 			channels.command_leave(name)
 			return
 		end
+
+
 		local args = param:split(" ")
-		if args[1] == "join" then
-			if #args >= 2 then
-				 channels.command_set(name, args[2])
-				 return
-			end
+
+		if args[1] == "join" and #args >= 2 then
+			channels.command_set(name, args[2])
+			return
+
+		elseif args[1] == "wall" and #args >= 2 then
+			channels.command_wall(name, tablejoin(args,2) )
+			return
 		end
+
 		minetest.chat_send_player(name, "Error: Please check again '/channel' for correct usage.")
 	end,
 })
 
 function channels.say_chat(name, message, channel)
-    minetest.debug("<"..channel.."> CHAT: "..message)
+	minetest.debug("[#"..channel.."] CHAT: "..message)
+
 	for k,v in pairs(channels.players) do
-		if v == channel and k ~= name then
+		if v == channel then
 			minetest.chat_send_player(k, message)
 		end
 	end
+end
+
+function channels.command_wall(name, message)
+	local playerprivs = minetest.get_player_privs(name)
+	if not playerprivs.basic_privs then
+		minetest.chat_send_player(name, "Error - require 'basic_privs' privilege.")
+		return
+	end
+	minetest.chat_send_all("Announcement from "..name..": "..message)
 end
 
 function channels.command_online(name)

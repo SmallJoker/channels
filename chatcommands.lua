@@ -51,13 +51,17 @@ minetest.register_chatcommand("channel", {
 })
 
 function channels.say_chat(name, message, channel)
-	minetest.log("action","CHAT: #"..channel.." "..message)
+    -- message must already have '<player name>' at start if from a player
+	minetest.log("action","CHAT: #"..tostring(channel or "no channel").." "..message)
 
-	for k,v in pairs(channels.players) do
-		if v == channel then
-			minetest.chat_send_player(k, message)
-		end
-	end
+    local all_players = minetest.get_connected_players()
+
+    for _,player in ipairs(all_players) do
+        local playername = player:get_player_name()
+        if channels.players[playername] == channel then -- if nil then send to players in global chat
+            minetest.chat_send_player(playername, message)
+        end
+    end
 end
 
 function channels.command_wall(name, message)
@@ -66,7 +70,8 @@ function channels.command_wall(name, message)
 		minetest.chat_send_player(name, "Error - require 'basic_privs' privilege.")
 		return
 	end
-	minetest.chat_send_all("Announcement from "..name..": "..message)
+
+	minetest.chat_send_all("(Announcement from "..name.."): "..message)
 end
 
 function channels.command_online(name)

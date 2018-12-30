@@ -31,7 +31,10 @@ Settings
 --------
 
 * `channels.allow_global_channel` - set to `true` to allow a global channel.
-    * if not `true` then players can only chat through named channels
+    * if `false`, and `suggested_channel` is not nil, a reminder is sent by chat every 5 minutes to players suggesting a main channel
+        * else no reminder is sent
     * default is `true`
+* `channels.suggested_channel` - suggests a channel for everybody to chat in
+    * default is nil
 * `channels.disable_private_messages` - set to `true` to disable private messages.
     * default is `false`

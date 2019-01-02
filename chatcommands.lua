@@ -72,7 +72,12 @@ end
 function channels.command_invite(hoster,guest)
     local channelname = channels.players[hoster]
     if not channelname then
-        channelname = "the global chat"
+        if channels.allow_global_channel then
+            channelname = "the global chat"
+        else
+            minetest.chat_send_player(hoster, "The global channel is not usable.")
+            return
+        end
     else
         channelname = "the '"..channelname.."' chat channel."
     end

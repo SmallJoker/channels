@@ -23,6 +23,8 @@ There is one chat command to manage everything.
 
 * Leave the current channel:       `/channel leave`
 
+* Invite player to you channel:    `/channel invite <playername>`
+
 Additionally, players with `basic_privs` priviledge can also use
 
 * Send message to all players:     `/channel wall <message ...>`

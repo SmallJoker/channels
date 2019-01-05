@@ -2,38 +2,25 @@ channels = {}
 channels.huds = {}
 channels.players = {}
 
--- workaround for settings:get*() defaults not working
-local function notnil_or(d,v)
-	if v == nil then
-		return d
-	end
+channels.allow_global_channel = minetest.settings:get_bool("channels.allow_global_channel") ~= false
+channels.disable_private_messages = minetest.settings:get_bool("channels.disable_private_messages") == true
+channels.suggested_channel = minetest.settings:get("channels.suggested_channel")
 
-	return v
-end
-
-channels.allow_global_channel = notnil_or(true, minetest.settings:get_bool("channels.allow_global_channel") )
-channels.disable_private_messages = notnil_or(false, minetest.settings:get_bool("channels.disable_private_messages") )
-channels.suggested_channel = minetest.settings:get_bool("channels.suggested_channel")
-
-dofile(minetest.get_modpath("channels").."/chatcommands.lua")
+dofile(minetest.get_modpath("channels") .. "/chatcommands.lua")
 
 
 
 
 if channels.disable_private_messages then
-	minetest.register_chatcommand("msg", {
-		params = "",
-		description = "?",
-		privs = nil,
-		func = function(name, param)
-			return true, "(private messages disabled)"
-		end,
-	})
+    minetest.registered_chatcommands["msg"] = nil
 end
 
 local function remind_global_off()
 	if not channels.allow_global_channel and channels.suggested_channel then
-		channels.say_chat("*server*", "<*server*> Out-of-channel chat is off. (try '/channel join "..channels.suggested_channel.."' ?)")
+		channels.say_chat("*server*",
+            "<*server*> Out-of-channel chat is off." .. 
+            "(try '/channel join " .. channels.suggested_channel .. "' ?)"
+        )
 	end
 end
 
@@ -71,7 +58,7 @@ minetest.register_on_chat_message(function(name, message)
 		end
 	end
 	
-	channels.say_chat(name, "<"..name.."> "..message, pl_channel)
+	channels.say_chat(name, "<" .. name .. "> " .. message, pl_channel)
 	return true
 end)
 

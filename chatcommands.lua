@@ -88,25 +88,25 @@ end
 
 function channels.command_online(name)
 	local channel = channels.players[name]
-	local players = "You"
+	local list = {}
 	if channel then
-		for k,v in pairs(channels.players) do
-			if v == channel and k ~= name then
-				players = players .. ", " .. k
+		for k, v in pairs(channels.players) do
+			if v == channel then
+				list[#list + 1] = k
 			end
 		end
-	else
+	else -- global chat
 		local oplayers = minetest.get_connected_players()
-		for _,player in ipairs(oplayers) do
+		for _, player in ipairs(oplayers) do
 			local p_name = player:get_player_name()
-			if not channels.players[p_name] and p_name ~= name then
-				players = players .. ", " .. p_name
+			if not channels.players[p_name] then
+				list[#list + 1] = p_name
 			end
 		end
-		return
 	end
 	
-	minetest.chat_send_player(name, "Online players in this channel: " .. players)
+	minetest.chat_send_player(name, "Online players in this channel: "
+		.. table.concat(list, ", "))
 end
 
 function channels.command_set(name, param)
